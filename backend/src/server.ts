@@ -15,11 +15,11 @@ const PORT = process.env.PORT || "";
 const MONGO_URI = process.env.MONGO_URI || "";
 
 const app = express();
-const corsOptions = {
-  origin: process.env.CLIENT_URL, // Allow requests only from your frontend
-};
+// const corsOptions = {
+//   origin: process.env.CLIENT_URL, // Allow requests only from your frontend
+// };
 
-app.use(cors(corsOptions));
+app.use(cors());
 
 app.use(express.json()); // will allow us to parse req.body
 
