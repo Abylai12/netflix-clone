@@ -32,6 +32,7 @@ app.get("/", async (_: Request, res: Response) => {
   res.send("Welcome Netflix API Server");
   //localhost:8000/
 });
+connectDB(MONGO_URI);
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/movie", protectRoute, movieRoutes);
@@ -40,5 +41,4 @@ app.use("/api/v1/search", protectRoute, searchRoutes);
 
 app.listen(PORT, () => {
   console.log(`Сервер localhost:${PORT} дээр аслаа`);
-  connectDB(MONGO_URI);
 });
