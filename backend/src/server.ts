@@ -18,7 +18,7 @@ const MONGO_URI = process.env.MONGO_URI || "";
 
 const app = express();
 const corsOptions = {
-  origin: process.env.CLIENT_URL, // Allow requests only from your frontend
+  origin: process.env.CLIENT_URL || "http://localhost:3000", // Allow requests only from your frontend
   credentials: true, // Allow credentials (cookies or authorization tokens)
 };
 
