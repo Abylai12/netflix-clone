@@ -53,9 +53,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const signup = async ({ email, password, username }: Credentials) => {
     setIsSigningUp(true);
     try {
-      const response = await axios.post(`${apiURL}/api/v1/auth/signup`, {
-        data: { email, password, username },
-      });
+      const response = await axios.post(
+        `${apiURL}/api/v1/auth/signup`,
+        {
+          data: { email, password, username },
+        },
+        { withCredentials: true }
+      );
 
       if (response.status === 200 && response.data.newUser) {
         setUser(response.data.newUser);
@@ -78,10 +82,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const login = async ({ email, password }: Login) => {
     setIsLoggingIn(true);
     try {
-      const response = await axios.post(`${apiURL}/api/v1/auth/login`, {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        `${apiURL}/api/v1/auth/login`,
+        {
+          email,
+          password,
+        },
+        { withCredentials: true }
+      );
 
       if (response.status === 200 && response.data.user) {
         setUser(response.data.user);

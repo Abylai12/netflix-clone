@@ -46,7 +46,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      <div className="flex gap-2 items-center z-50">
+      <div className="flex gap-4 items-center z-50">
         <Link href="/search">
           <Search className="size-6 cursor-pointer" />
         </Link>

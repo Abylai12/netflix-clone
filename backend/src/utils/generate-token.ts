@@ -10,11 +10,9 @@ export const generateTokenAndSetCookie = (userId: string, res: Response) => {
   });
 
   res.cookie("jwtnetflix", token, {
-    maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days in MS
-    httpOnly: true, // prevent XSS attacks cross-site scripting attacks, make it not be accessed by JS
-    sameSite: "lax", // CSRF attacks cross-site request forgery attacks
+    httpOnly: true, // prevent XSS attacks, cross site scripting attack
     secure: process.env.NODE_ENV === "production",
+    sameSite: "lax", // prevents CSRF attack, cross-site request forgery attack
+    maxAge: 15 * 24 * 60 * 60 * 1000,
   });
-
-  return token;
 };

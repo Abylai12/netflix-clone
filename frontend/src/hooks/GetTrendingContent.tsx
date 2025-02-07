@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useContentStore } from "../store/content";
-import axios from "@/utils/axios-instance";
+import axiosInstance from "@/utils/axios-instance";
 
 interface TrendingContent {
   id: number;
@@ -20,7 +20,7 @@ const useGetTrendingContent = () => {
 
   useEffect(() => {
     const getTrendingContent = async () => {
-      const res = await axios.get(`/api/v1/${contentType}/trending`);
+      const res = await axiosInstance.get(`/api/v1/${contentType}/trending`);
       setTrendingContent(res.data.content);
     };
 
