@@ -3,12 +3,12 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 import { Search } from "lucide-react";
 import toast from "react-hot-toast";
-import axios from "axios";
+
 import { useContentStore } from "@/store/content";
 import Link from "next/link";
 import { ORIGINAL_IMG_BASE_URL } from "@/utils/constants";
+import axios from "@/utils/axios-instance";
 
-// Define types for the search result items
 interface MovieOrTVShow {
   id: number;
   title?: string;

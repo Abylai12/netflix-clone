@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import User from "../models/user.model";
 import { NextFunction, Request, Response } from "express";
-import { DecodeToken } from "../utils/decode-token";
+import { decodeToken } from "../utils/decode-token";
 dotenv.config();
 
 declare global {
@@ -26,7 +26,8 @@ export const protectRoute = async (
         .json({ success: false, message: "Unauthorized - No Token Provided" });
       return;
     }
-    const userId = DecodeToken(token);
+
+    const userId = decodeToken(token);
 
     if (!userId) {
       res
@@ -35,7 +36,9 @@ export const protectRoute = async (
       return;
     }
 
-    const user = await User.findById(userId).select("-password");
+    const user = await User.findById(userId).select(
+      "-password -otp -passwordResetToken"
+    );
 
     if (!user) {
       res.status(404).json({ success: false, message: "User not found" });

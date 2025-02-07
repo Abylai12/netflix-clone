@@ -5,7 +5,8 @@ import { Request, Response } from "express";
 
 export const signup = async (req: Request, res: Response) => {
   try {
-    const { email, password, username } = req.body;
+    const { data } = req.body;
+    const { email, password, username } = data;
     if (!email || !password || !username) {
       res
         .status(400)
@@ -72,21 +73,21 @@ export const login = async (req: Request, res: Response) => {
 
     if (!email || !password) {
       res
-        .status(400)
+        .status(201)
         .json({ success: false, message: "All fields are required" });
       return;
     }
 
     const user = await User.findOne({ email: email });
     if (!user) {
-      res.status(404).json({ success: false, message: "Invalid credentials" });
+      res.status(201).json({ success: false, message: "Invalid credentials" });
       return;
     }
 
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
     if (!isPasswordCorrect) {
-      res.status(400).json({ success: false, message: "Invalid credentials" });
+      res.status(201).json({ success: false, message: "Invalid credentials" });
       return;
     }
 
@@ -114,8 +115,12 @@ export const logout = async (_: Request, res: Response) => {
 
 export const authCheck = async (req: Request, res: Response) => {
   try {
-    console.log("req.user:", req.user);
-    res.status(200).json({ success: true, user: req.user });
+    const user = {
+      username: req.user.userName,
+      email: req.user.email,
+      image: req.user.image,
+    };
+    res.status(200).json(user);
   } catch (error: any) {
     console.log("Error in authCheck controller", error.message);
     res.status(500).json({ success: false, message: "Internal server error" });

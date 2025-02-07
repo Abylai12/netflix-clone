@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useContentStore } from "../store/content";
-import axios from "axios";
+import axios from "@/utils/axios-instance";
+
 interface TrendingContent {
   id: number;
   backdrop_path: string;

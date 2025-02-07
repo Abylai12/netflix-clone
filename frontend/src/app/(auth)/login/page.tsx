@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuthStore } from "@/store/auth-user";
+import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -8,7 +8,7 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { login, isLoggingIn } = useAuthStore();
+  const { login, isLoggingIn } = useAuth();
 
   const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuthStore } from "@/store/auth-user";
+import { useAuth } from "@/context/AuthContext";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useState, FormEvent } from "react";
@@ -13,7 +13,7 @@ const SignUpPage = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const { signup, isSigningUp } = useAuthStore();
+  const { signup, isSigningUp } = useAuth();
 
   const handleSignUp = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

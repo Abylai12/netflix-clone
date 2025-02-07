@@ -2,12 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useContentStore } from "../store/content";
-import axios from "axios";
 import { SMALL_IMG_BASE_URL } from "../utils/constants";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
+import axios from "@/utils/axios-instance";
 
-// Define the types for the content items
 interface Item {
   id: string;
   title: string;
@@ -21,12 +20,11 @@ interface MovieSliderProps {
 
 const MovieSlider = ({ category }: MovieSliderProps) => {
   const { contentType } = useContentStore();
-  const [content, setContent] = useState<Item[]>([]); // Type content as an array of Item
+  const [content, setContent] = useState<Item[]>([]);
   const [showArrows, setShowArrows] = useState(false);
 
-  const sliderRef = useRef<HTMLDivElement | null>(null); // Type the ref
+  const sliderRef = useRef<HTMLDivElement | null>(null);
 
-  // Format category name and content type
   const formattedCategoryName =
     category.replaceAll("_", " ")[0].toUpperCase() +
     category.replaceAll("_", " ").slice(1);

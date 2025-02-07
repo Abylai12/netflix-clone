@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { fetchFromTMDB } from "../services/tmdb-service";
 
-export const getTrendingMovie = async (req: Request, res: Response) => {
+export const getTrendingMovie = async (_: Request, res: Response) => {
   try {
     const data = await fetchFromTMDB(
       "https://api.themoviedb.org/3/trending/movie/day?language=en-US"

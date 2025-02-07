@@ -3,12 +3,12 @@
 import { useState } from "react";
 import { LogOut, Menu, Search } from "lucide-react";
 import { useContentStore } from "../store/content";
-import { useAuthStore } from "@/store/auth-user";
 import Link from "next/link";
+import { useAuth } from "@/context/AuthContext";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { user, logout } = useAuthStore();
+  const { user, logout } = useAuth();
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
@@ -17,7 +17,7 @@ const Navbar = () => {
   return (
     <header className="max-w-6xl mx-auto flex flex-wrap items-center justify-between p-4 h-20">
       <div className="flex items-center gap-10 z-50">
-        <Link href="/">
+        <Link href="/dashboard">
           <img
             src="/netflix-logo.png"
             alt="Netflix Logo"
@@ -27,27 +27,27 @@ const Navbar = () => {
 
         <div className="hidden sm:flex gap-2 items-center">
           <Link
-            href="/"
+            href="/dashboard"
             className="hover:underline"
             onClick={() => setContentType("movie")}
           >
             Movies
           </Link>
           <Link
-            href="/"
+            href="/dashboard"
             className="hover:underline"
             onClick={() => setContentType("tv")}
           >
             Tv Shows
           </Link>
-          <Link href="/history" className="hover:underline">
+          <Link href="/search-history" className="hover:underline">
             Search History
           </Link>
         </div>
       </div>
 
       <div className="flex gap-2 items-center z-50">
-        <Link href={"/search"}>
+        <Link href="/search">
           <Search className="size-6 cursor-pointer" />
         </Link>
         <img
@@ -64,21 +64,21 @@ const Navbar = () => {
       {isMobileMenuOpen && (
         <div className="w-full sm:hidden mt-4 z-50 bg-black border rounded border-gray-800">
           <Link
-            href={"/"}
+            href={"/dashboard"}
             className="block hover:underline p-2"
             onClick={toggleMobileMenu}
           >
             Movies
           </Link>
           <Link
-            href={"/"}
+            href={"/dashboard"}
             className="block hover:underline p-2"
             onClick={toggleMobileMenu}
           >
             Tv Shows
           </Link>
           <Link
-            href={"/history"}
+            href={"/search-history"}
             className="block hover:underline p-2"
             onClick={toggleMobileMenu}
           >

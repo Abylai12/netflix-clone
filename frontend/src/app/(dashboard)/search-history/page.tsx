@@ -1,10 +1,11 @@
 "use client";
 
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Trash } from "lucide-react";
 import toast from "react-hot-toast";
 import { SMALL_IMG_BASE_URL } from "@/utils/constants";
+import axios from "@/utils/axios-instance";
+import { formatDate } from "@/utils/format-date";
 
 interface SearchHistoryEntry {
   id: number;

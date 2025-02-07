@@ -1,11 +1,11 @@
 "use client";
 
 import Navbar from "@/components/Navbar";
-import { useAuthStore } from "@/store/auth-user";
+import { useAuth } from "@/context/AuthContext";
 import { PropsWithChildren } from "react";
 
 const HomeLayout = ({ children }: PropsWithChildren) => {
-  const { user } = useAuthStore();
+  const { user } = useAuth();
   return (
     <div className="">
       {user && <Navbar />}
