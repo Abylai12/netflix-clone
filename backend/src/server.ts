@@ -1,15 +1,14 @@
 import express, { Request, Response } from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import { connectDB } from "./config/db";
+import dotenv from "dotenv";
 
 import authRoutes from "./routes/auth-route";
 import movieRoutes from "./routes/movie-route";
 import tvRoutes from "./routes/tv-route";
 import searchRoutes from "./routes/search-route";
 import { protectRoute } from "./middlewares/protect-route";
-
-import dotenv from "dotenv";
-import { connectDB } from "./config/db";
 
 dotenv.config();
 
