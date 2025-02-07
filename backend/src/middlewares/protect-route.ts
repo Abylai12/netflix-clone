@@ -19,7 +19,7 @@ export const protectRoute = async (
 ) => {
   try {
     const token = req.cookies["jwt-netflix"];
-
+    console.log("token", token);
     if (!token) {
       res
         .status(401)
