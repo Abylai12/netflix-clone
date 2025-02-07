@@ -18,8 +18,8 @@ export const protectRoute = async (
   next: NextFunction
 ) => {
   try {
-    const token = req.cookies["jwt-netflix"];
-    console.log("token", token);
+    const token = req.cookies["jwtnetflix"];
+
     if (!token) {
       res
         .status(401)
@@ -39,7 +39,6 @@ export const protectRoute = async (
     const user = await User.findById(userId).select(
       "-password -otp -passwordResetToken"
     );
-
     if (!user) {
       res.status(404).json({ success: false, message: "User not found" });
       return;
