@@ -18,17 +18,16 @@ export const protectRoute = async (
   next: NextFunction
 ) => {
   try {
-    const token = req.cookies["jwtnetflix"];
-
-    if (!token) {
+    if (!req.headers.authorization) {
       res
         .status(401)
-        .json({ success: false, message: "Unauthorized - No Token Provided" });
+        .json({ message: "Та энэ үйлдлийг хийхийн тулд нэвтэрнэ үү" });
       return;
     }
 
-    const userId = decodeToken(token);
+    const token = req.headers.authorization.split(" ")[1];
 
+    const userId = decodeToken(token);
     if (!userId) {
       res
         .status(401)

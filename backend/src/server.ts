@@ -1,5 +1,4 @@
 import express, { Request, Response } from "express";
-import cookieParser from "cookie-parser";
 import cors from "cors";
 import { connectDB } from "./config/db";
 import dotenv from "dotenv";
@@ -18,13 +17,11 @@ const MONGO_URI = process.env.MONGO_URI || "";
 const app = express();
 const corsOptions = {
   origin: process.env.CLIENT_URL, // Allow requests only from your frontend
-  credentials: true, // Allow credentials (cookies or authorization tokens)
 };
 
 app.use(cors(corsOptions));
 
 app.use(express.json()); // will allow us to parse req.body
-app.use(cookieParser());
 
 app.get("/", async (_: Request, res: Response) => {
   res.send("Welcome Netflix API Server");

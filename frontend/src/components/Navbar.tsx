@@ -62,7 +62,7 @@ const Navbar = () => {
       </div>
 
       {isMobileMenuOpen && (
-        <div className="w-full sm:hidden mt-4 z-50 bg-black border rounded border-gray-800">
+        <div className="w-full text-white sm:hidden mt-4 z-50 bg-black border rounded border-gray-800">
           <Link
             href={"/dashboard"}
             className="block hover:underline p-2"

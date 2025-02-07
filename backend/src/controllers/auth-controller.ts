@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import User from "../models/user.model";
-import { generateTokenAndSetCookie } from "../utils/generate-token";
+import { generateToken } from "../utils/generate-token";
 import { Request, Response } from "express";
 
 export const signup = async (req: Request, res: Response) => {
@@ -67,7 +67,6 @@ export const signup = async (req: Request, res: Response) => {
 export const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
-
     if (!email || !password) {
       res
         .status(201)
@@ -88,11 +87,12 @@ export const login = async (req: Request, res: Response) => {
       return;
     }
 
-    generateTokenAndSetCookie(user._id.toString(), res);
+    const token = generateToken({ id: user._id });
 
     res.status(200).json({
       success: true,
       user,
+      token,
     });
   } catch (error: any) {
     console.log("Error in login controller", error.message);
@@ -100,15 +100,15 @@ export const login = async (req: Request, res: Response) => {
   }
 };
 
-export const logout = async (_: Request, res: Response) => {
-  try {
-    res.clearCookie("jwtnetflix");
-    res.status(200).json({ success: true, message: "Logged out successfully" });
-  } catch (error: any) {
-    console.log("Error in logout controller", error.message);
-    res.status(500).json({ success: false, message: "Internal server error" });
-  }
-};
+// export const logout = async (_: Request, res: Response) => {
+//   try {
+//     res.clearCookie("jwtnetflix");
+//     res.status(200).json({ success: true, message: "Logged out successfully" });
+//   } catch (error: any) {
+//     console.log("Error in logout controller", error.message);
+//     res.status(500).json({ success: false, message: "Internal server error" });
+//   }
+// };
 
 export const authCheck = async (req: Request, res: Response) => {
   try {

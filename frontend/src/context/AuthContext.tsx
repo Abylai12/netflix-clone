@@ -30,7 +30,7 @@ interface AuthContextProps {
   isLoggingIn: boolean;
   signup: (credentials: Credentials) => Promise<void>;
   login: (credentials: Login) => Promise<void>;
-  logout: () => Promise<void>;
+  logout: () => void;
   authCheck: () => Promise<void>;
 }
 
@@ -40,7 +40,7 @@ export const AuthContext = createContext<AuthContextProps>({
   isLoggingIn: false,
   signup: async () => {},
   login: async () => {},
-  logout: async () => {},
+  logout: () => {},
   authCheck: async () => {},
 });
 
@@ -48,18 +48,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isSigningUp, setIsSigningUp] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [token, setToken] = useState<string | null>(null);
   const router = useRouter();
 
   const signup = async ({ email, password, username }: Credentials) => {
     setIsSigningUp(true);
     try {
-      const response = await axios.post(
-        `${apiURL}/api/v1/auth/signup`,
-        {
-          data: { email, password, username },
-        },
-        { withCredentials: true }
-      );
+      const response = await axios.post(`${apiURL}/api/v1/auth/signup`, {
+        data: { email, password, username },
+      });
 
       if (response.status === 200 && response.data.newUser) {
         setUser(response.data.newUser);
@@ -82,17 +79,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const login = async ({ email, password }: Login) => {
     setIsLoggingIn(true);
     try {
-      const response = await axios.post(
-        `${apiURL}/api/v1/auth/login`,
-        {
-          email,
-          password,
-        },
-        { withCredentials: true }
-      );
+      const response = await axios.post(`${apiURL}/api/v1/auth/login`, {
+        email,
+        password,
+      });
 
       if (response.status === 200 && response.data.user) {
+        localStorage.setItem("token", response.data.token);
         setUser(response.data.user);
+        setToken(response.data.token);
         toast.success("Logged in successfully");
         router.push("/dashboard");
       } else {
@@ -105,16 +100,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const logout = async () => {
-    try {
-      await axiosInstance.post("/api/v1/auth/logout");
-      setUser(null);
-      router.push("/home");
-      toast.success("Logged out successfully");
-    } catch (error: any) {
-      toast.error(error?.response?.data?.message || "Logout failed.");
-    } finally {
-    }
+  const logout = () => {
+    localStorage.removeItem("token");
+    setUser(null);
+    router.push("/home");
   };
 
   const authCheck = async () => {
@@ -129,8 +118,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
-    authCheck();
-  }, []);
+    if (token) {
+      authCheck();
+    } else {
+      setToken(localStorage.getItem("token"));
+    }
+  }, [token]);
 
   return (
     <AuthContext.Provider

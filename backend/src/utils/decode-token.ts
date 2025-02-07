@@ -8,7 +8,7 @@ export const decodeToken = (accessToken: string) => {
       accessToken,
       process.env.JWT_SECRET!
     ) as JwtPayload;
-    return decoded.userId; // Access the `userId` property from the decoded token
+    return decoded.id; // Access the `userId` property from the decoded token
   } catch (error) {
     throw new Error("Invalid or expired access token");
   }
