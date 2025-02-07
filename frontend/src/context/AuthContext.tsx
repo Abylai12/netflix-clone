@@ -1,9 +1,11 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect } from "react";
-import axios from "@/utils/axios-instance";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { apiURL } from "@/utils/api-url";
+import axios from "axios";
+import axiosInstance from "@/utils/axios-instance";
 
 interface User {
   email: string;
@@ -51,7 +53,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const signup = async ({ email, password, username }: Credentials) => {
     setIsSigningUp(true);
     try {
-      const response = await axios.post("/api/v1/auth/signup", {
+      const response = await axios.post(`${apiURL}/api/v1/auth/signup`, {
         data: { email, password, username },
       });
 
@@ -76,7 +78,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const login = async ({ email, password }: Login) => {
     setIsLoggingIn(true);
     try {
-      const response = await axios.post("/api/v1/auth/login", {
+      const response = await axios.post(`${apiURL}/api/v1/auth/login`, {
         email,
         password,
       });
@@ -97,7 +99,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const logout = async () => {
     try {
-      await axios.post("/api/v1/auth/logout");
+      await axiosInstance.post("/api/v1/auth/logout");
       setUser(null);
       router.push("/home");
       toast.success("Logged out successfully");
@@ -109,7 +111,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const authCheck = async () => {
     try {
-      const res = await axios.get("/api/v1/auth/authCheck");
+      const res = await axiosInstance.get("/api/v1/auth/authCheck");
       if (res.status === 200) {
         setUser(res.data);
       }
